@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+   <head>
+    <title>File System Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+      <script type="text/javascript" charset="utf-8" src="jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
+       function onBodyLoad(){
+    document.addEventListener("deviceready", onDeviceReady, false);}
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        window.requestFileSystem(LocalFileSystem.TEMPORARY,
+5242880, onSuccessFunction, onFileError);
+    }
+
+    function onSuccessFunction(fs) {
+notification.navigator.alert("Accessing " + fs.name + " storage (" +
+fs.root.fullPath + ")");
+//Do something with the file system (fs) here
+}
+       function onFileError(e) {
+var msgText;
+switch(e.code) {
+case FileError.NOT_FOUND_ERR:
+msgText = "File not found error.";
+break;
+case FileError.SECURITY_ERR:
+msgText = "Security error.";
+break;
+case FileError.ABORT_ERR:
+msgText = "Abort error.";
+break;
+case FileError.NOT_READABLE_ERR:
+msgText = "Not readable error.";
+break;
+case FileError.ENCODING_ERR:
+msgText = "Encoding error.";
+break;
+case FileError.NO_MODIFICATION_ALLOWED_ERR:
+msgText = "No modification allowed.";
+break;
+case FileError.INVALID_STATE_ERR:
+msgText = "Invalid state.";
+break;
+case FileError.SYNTAX_ERR:
+msgText = "Syntax error.";
+break;
+case FileError.INVALID_MODIFICATION_ERR:
+msgText = "Invalid modification.";
+break;
+case FileError.QUOTA_EXCEEDED_ERR:
+msgText = "Quota exceeded.";
+break;
+case FileError.TYPE_MISMATCH_ERR:
+msgText = "Type mismatch.";
+break;
+case FileError.PATH_EXISTS_ERR:
+msgText = "Path exists error.";
+break;
+default:
+msgText = "Unknown error.";
+}
+//Now tell the user what happened
+navigator.notification.alert(msgText, null, "File Error");
+}
+ 
+
+    </script>
+  </head>
+  <body onload="onBodyLoad()">
+    <h1>Example</h1>
+    <section id="dirList" data-role="page" data-add-back-btn="true">
+<header data-role="header">
+<h1>File API Demo</h1>
+<a onclick="writeFile();" data-icon="plus"
+class="ui-btn-right">Write</a>
+</header>
+<div data-role="content">
+<p>File system contents:</p>
+<div id="dirEntries"></div>
+<hr />
+<div id="writeInfo"></div>
+</div>
+</section>
+  </body>
+</html>
